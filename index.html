@@ -1,11 +1,363 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <title>My First Page</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MapleStoryボス動画検索ナビゲーター</title>
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif;
+            background-color: #f4f7f6;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .search-container {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+            width: 100%;
+            max-width: 500px;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            font-size: 20px;
+            color: #2c3e50;
+            margin-top: 0;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: 700;
+            border-bottom: 2px solid #eef2f5;
+            padding-bottom: 15px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            font-size: 13px;
+            font-weight: bold;
+            color: #7f8c8d;
+            margin-bottom: 6px;
+        }
+
+        select {
+            width: 100%;
+            padding: 10px 12px;
+            font-size: 15px;
+            border: 1px solid #ccd1d9;
+            border-radius: 6px;
+            background-color: #fbfbfb;
+            color: #434a54;
+            outline: none;
+            transition: border-color 0.2s, background-color 0.2s;
+            box-sizing: border-box;
+        }
+
+        select:focus {
+            border-color: #ff9f43;
+            background-color: #fff;
+        }
+
+        .region-select {
+            background-color: #fff6ee;
+            border: 1px solid #ffdbb5;
+        }
+
+        .search-btn {
+            width: 100%;
+            padding: 14px;
+            font-size: 16px;
+            font-weight: bold;
+            color: #fff;
+            background-color: #ff9f43;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.1s;
+            margin-top: 10px;
+            box-shadow: 0 4px 12px rgba(255, 159, 67, 0.3);
+        }
+
+        .search-btn:hover {
+            background-color: #ff8f23;
+        }
+
+        .search-btn:active {
+            transform: scale(0.98);
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 12px;
+            color: #bdc3c7;
+        }
+    </style>
 </head>
 <body>
-    <h1>ハロー、世界！</h1>
-    <p>GitHub Pagesでページを公開しました。</p>
+
+<div class="search-container">
+    <h1>MapleStory ボス動画検索ナビゲーター</h1>
+    
+    <form id="searchForm" onsubmit="searchYouTube(event)">
+        <div class="form-group">
+            <label for="region">対象リージョン（言語）</label>
+            <select id="region" class="region-select">
+                <option value="JMS">JMS (日本 / 日本語)</option>
+                <option value="KMS">KMS (韓国 / 韓国語)</option>
+                <option value="GMS">GMS (グローバル / 英語)</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="job">職業</label>
+            <select id="job">
+                <option value="">指定なし</option>
+                <optgroup label="冒険者">
+                    <option value="ヒーロー">ヒーロー</option>
+                    <option value="パラディン">パラディン</option>
+                    <option value="ダークナイト">ダークナイト</option>
+                    <option value="アークメイジ(火・毒)">アークメイジ(火・毒)</option>
+                    <option value="アークメイジ(氷・雷)">アークメイジ(氷・雷)</option>
+                    <option value="ビショップ">ビショップ</option>
+                    <option value="ボウマスター">ボウマスター</option>
+                    <option value="クロスボウマスター">クロスボウマスター</option>
+                    <option value="パスファインダー">パスファインダー</option>
+                    <option value="ナイトロード">ナイトロード</option>
+                    <option value="シャドー">シャドー</option>
+                    <option value="デュアルブレイド">デュアルブレイド</option>
+                    <option value="バイパー">バイパー</option>
+                    <option value="キャプテン">キャプテン</option>
+                    <option value="キャノンシューター">キャノンシューター</option>
+                </optgroup>
+                <optgroup label="シグナス騎士団">
+                    <option value="ソウルマスター">ソウルマスター</option>
+                    <option value="フレイムウィザード">フレイムウィザード</option>
+                    <option value="ウインドシューター">ウインドシューター</option>
+                    <option value="ナイトウォーカー">ナイトウォーカー</option>
+                    <option value="ストライカー">ストライカー</option>
+                    <option value="ミハエル">ミハエル</option>
+                </optgroup>
+                <optgroup label="レジスタンス">
+                    <option value="ブラスター">ブラスター</option>
+                    <option value="バトルメイジ">バトルメイジ</option>
+                    <option value="ワイルドハンター">ワイルドハンター</option>
+                    <option value="メカニック">メカニック</option>
+                    <option value="デーモンスレイヤー">デーモンスレイヤー</option>
+                    <option value="デーモンアヴェンジャー">デーモンアヴェンジャー</option>
+                    <option value="ゼノン">ゼノン</option>
+                </optgroup>
+                <optgroup label="英雄">
+                    <option value="アラン">アラン</option>
+                    <option value="エヴァン">エヴァン</option>
+                    <option value="メルセデス">メルセデス</option>
+                    <option value="ファントム">ファントム</option>
+                    <option value="ルミナス">ルミナス</option>
+                    <option value="隠月">隠月</option>
+                </optgroup>
+                <optgroup label="ノヴァ">
+                    <option value="カイザー">カイザー</option>
+                    <option value="エンジェリックバスター">エンジェリックバスター</option>
+                    <option value="カデナ">カデナ</option>
+                    <option value="カイン">カイン</option>
+                </optgroup>
+                <optgroup label="レフ">
+                    <option value="イリウム">イリウム</option>
+                    <option value="アーク">アーク</option>
+                    <option value="アデル">アデル</option>
+                    <option value="カーリー">カーリー</option>
+                </optgroup>
+                <optgroup label="アニマ">
+                    <option value="虎影">虎影</option>
+                    <option value="ララ">ララ</option>
+                </optgroup>
+                <optgroup label="その他">
+                    <option value="ゼロ">ゼロ</option>
+                    <option value="キネシス">キネシス</option>
+                    <option value="リン">リン</option>
+                </optgroup>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="boss">ボス</label>
+            <select id="boss">
+                <option value="">指定なし</option>
+                <option value="ガーディアンエンジェルスライム">ガーディアンエンジェルスライム</option>
+                <option value="スウ">スウ</option>
+                <option value="デミアン">デミアン</option>
+                <option value="ルシード">ルシード</option>
+                <option value="ウィル">ウィル</option>
+                <option value="ダスク">ダスク</option>
+                <option value="デュンケル">デュンケル</option>
+                <option value="真ヒルラ">真・ヒルラ</option>
+                <option value="暗黒の魔法使い">暗黒の魔法使い</option>
+                <option value="最初の対敵者">最初の対敵者</option>
+                <option value="セレン">選ばれしセレン</option>
+                <option value="カロス">監視者カロス</option>
+                <option value="カリーン">カリーン</option>
+                <option value="マリシャ">マリシャ</option>
+                <option value="リンボ">リンボ</option>
+                <option value="バルドリックス">バルドリックス</option>
+                <option value="カイ">カイ</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="difficulty">難易度</label>
+            <select id="difficulty">
+                <option value="">指定なし</option>
+                <option value="イージー">イージー</option>
+                <option value="ノーマル">ノーマル</option>
+                <option value="ハード">ハード</option>
+                <option value="カオス">カオス</option>
+                <option value="エクストリーム">エクストリーム</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="partyType">パーティ形態</label>
+            <select id="partyType">
+                <option value="">指定なし</option>
+                <option value="ソロ">ソロ</option>
+                <option value="PT">PT (パーティ)</option>
+            </select>
+        </div>
+
+        <button type="submit" class="search-btn">YouTubeで動画を検索</button>
+    </form>
+</div>
+
+<script>
+    const translationTable = {
+        meta: {
+            JMS: {ゲーム名: 'メイプルストーリー', ソロ: 'ソロ', PT: 'PT'},
+            KMS: {ゲーム名: '메이플스토리', ソロ: '솔로', PT: '격숍 파티'},
+            style: { JMS: '', KMS: '', GMS: '' },
+            GMS: {ゲーム名: 'Maplestory', ソロ: 'Solo', PT: 'Party'}
+        },
+        difficulty: {
+            'イージー': { JMS: 'イージー', KMS: '이지', GMS: 'Easy' },
+            'ノーマル': { JMS: 'ノーマル', KMS: '노말', GMS: 'Normal' },
+            'ハード': { JMS: 'ハード', KMS: '하드', GMS: 'Hard' },
+            'カオス': { JMS: 'カオス', KMS: '카오스', GMS: 'Chaos' },
+            'エクストリーム': { JMS: 'エクストリーム', KMS: '익스트림', GMS: 'Extreme' },
+            'エピック': { JMS: 'エピック', KMS: '에픽', GMS: 'Epic' }
+        },
+        boss: {
+            'ガーディアンエンジェルスライム': { JMS: 'ガーディアンエンジェルスライム ガエン', KMS: '가엔슬 가디언 엔젤 슬라임', GMS: 'Guardian Angel Slime' },
+            'スウ': { JMS: 'スウ', KMS: '스우', GMS: 'Lotus' },
+            'デミアン': { JMS: 'デミアン', KMS: '데미안', GMS: 'Damien' },
+            'ルシード': { JMS: 'ルシード', KMS: '루시드', GMS: 'Lucid' },
+            'ウィル': { JMS: 'ウィル', KMS: '윌', GMS: 'Will' },
+            'ダスク': { JMS: 'ダスク', KMS: '더스크', GMS: 'Dusk' },
+            'デュンケル': { JMS: 'デュンケル', KMS: '듄켈', GMS: 'Dunkel' },
+            '真ヒルラ': { JMS: '真・ヒルラ', KMS: '진 힐라', GMS: 'Hilla' },
+            '暗黒の魔法使い': { JMS: '暗黒の魔法使い', KMS: '검은 마법사', GMS: 'Black Mage' },
+            '最初の対敵者': { JMS: '最初の対敵者', KMS: '처음의 대적자', GMS: 'First Adversary' },
+            'セレン': { JMS: 'セレン', KMS: '세렌', GMS: 'Seren' },
+            'カロス': { JMS: 'カロス', KMS: '카로스', GMS: 'Kalos' },
+            'カリーン': { JMS: 'カリーン', KMS: '카링', GMS: 'Kaling' },
+            'マリシャ': { JMS: 'マリシャ', KMS: '마리샤', GMS: 'Marisha' },
+            'リンボ': { JMS: 'リンボ', KMS: '림보', GMS: 'Limbo' },
+            'バルドリックス': { JMS: 'バルドリックス', KMS: '발드리크스 발드릭스', GMS: 'Baldrix' },
+            'カイ': { JMS: 'カイ', KMS: '카이', GMS: 'Cai' }
+        },
+        job: {
+            'ヒーロー': { JMS: 'ヒーロー', KMS: '히어로', GMS: 'Hero' },
+            'パラディン': { JMS: 'パラディン', KMS: '팔라딘', GMS: 'Paladin' },
+            'ダークナイト': { JMS: 'ダークナイト', KMS: '다크나이트', GMS: 'Dark Knight' },
+            'アークメイジ(火・毒)': { JMS: 'アークメイジ(火・毒)', KMS: '불독', GMS: 'Fire Poison' },
+            'アークメイジ(氷・雷)': { JMS: 'アークメイジ(氷・雷)', KMS: '썬콜', GMS: 'Ice Lightning' },
+            'ビショップ': { JMS: 'ビショップ', KMS: '비숍', GMS: 'Bishop' },
+            'ボウマスター': { JMS: 'ボウマスター', KMS: '보우마스터', GMS: 'Bowmaster' },
+            'クロスボウマスター': { JMS: 'クロスボウマスター', KMS: '신궁', GMS: 'Marksman' },
+            'パスファインダー': { JMS: 'パスファインダー', KMS: '패스파인더', GMS: 'Pathfinder' },
+            'ナイトロード': { JMS: 'ナイトロード', KMS: '나로', GMS: 'Night Lord' },
+            'シャドー': { JMS: 'シャドー', KMS: '섀도어', GMS: 'Shadower' },
+            'デュアルブレイド': { JMS: 'デュアルブレイド', KMS: '듀블', GMS: 'Dual Blade' },
+            'バイパー': { JMS: 'バイパー', KMS: '바이퍼', GMS: 'Buccaneer' },
+            'キャプテン': { JMS: 'キャプテン', KMS: '캡틴', GMS: 'Corsair' },
+            'キャノンシューター': { JMS: 'キャノンシューター', KMS: '캐슈', GMS: 'Cannoneer' },
+            'ソウルマスター': { JMS: 'ソウルマスター', KMS: '소마', GMS: 'Dawn Warrior' },
+            'フレイムウィザード': { JMS: 'フレイムウィザード', KMS: '플위', GMS: 'Blaze Wizard' },
+            'ウインドシューター': { JMS: 'ウインドシューター', KMS: '윈브', GMS: 'Wind Archer' },
+            'ナイトウォーカー': { JMS: 'ナイトウォーカー', KMS: '나워', GMS: 'Night Walker' },
+            'ストライカー': { JMS: 'ストライカー', KMS: '스커', GMS: 'Thunder Breaker' },
+            'ミハエル': { JMS: 'ミハエル', KMS: '미하엘', GMS: 'Mihile' },
+            'ブラスター': { JMS: 'ブラスター', KMS: '블래스터', GMS: 'Blaster' },
+            'バトルメイジ': { JMS: 'バトルメイジ', KMS: '배메', GMS: 'Battle Mage' },
+            'ワイルドハンター': { JMS: 'ワイルドハンター', KMS: '와헌', GMS: 'Wild Hunter' },
+            'メカニック': { JMS: 'メカニック', KMS: '메카닉', GMS: 'Mechanic' },
+            'デーモンスレイヤー': { JMS: 'デーモンスレイヤー', KMS: '데슬', GMS: 'Demon Slayer' },
+            'デーモンアヴェンジャー': { JMS: 'デーモンアヴェンジャー', KMS: '데벤', GMS: 'Demon Avenger' },
+            'ゼノン': { JMS: 'ゼノン', KMS: '제논', GMS: 'Xenon' },
+            'アラン': { JMS: 'アラン', KMS: '아란', GMS: 'Aran' },
+            'エヴァン': { JMS: 'エヴァン', KMS: '에반', GMS: 'Evan' },
+            'メルセデス': { JMS: 'メルセデス', KMS: '메르', GMS: 'Mercedes' },
+            'ファントム': { JMS: 'ファントム', KMS: '팬텀', GMS: 'Phantom' },
+            'ルミナス': { JMS: 'ルミナス', KMS: '루미너스', GMS: 'Luminous' },
+            '隠月': { JMS: '隠月', KMS: '은월', GMS: 'Shade' },
+            'カイザー': { JMS: 'カイザー', KMS: '카이저', GMS: 'Kaiser' },
+            'エンジェリックバスター': { JMS: 'エンジェリックバスター', KMS: '엔버', GMS: 'Angelic Buster' },
+            'カデナ': { JMS: 'カデナ', KMS: '카데나', GMS: 'Cadena' },
+            'カイン': { JMS: 'カイン', KMS: '카인', GMS: 'Kain' },
+            'イリウム': { JMS: 'イリウム', KMS: '일리움', GMS: 'Illium' },
+            'アーク': { JMS: 'アーク', KMS: '아크', GMS: 'Ark' },
+            'アデル': { JMS: 'アデル', KMS: '아델', GMS: 'Adele' },
+            'カーリー': { JMS: 'カーリー', KMS: '칼리', GMS: 'Khali' },
+            '虎影': { JMS: '虎影', KMS: '호영', GMS: 'Hoyoung' },
+            'ララ': { JMS: 'ララ', KMS: '라라', GMS: 'Lara' },
+            'ゼロ': { JMS: 'ゼロ', KMS: '제로', GMS: 'Zero' },
+            'キネシス': { JMS: 'キネシス', KMS: '키네시스', GMS: 'Kinesis' },
+            'リン': { JMS: 'リン', KMS: '린', GMS: 'Lynn' }
+        }
+    };
+
+    function searchYouTube(event) {
+        event.preventDefault();
+
+        const region = document.getElementById('region').value;
+        const rawJob = document.getElementById('job').value;
+        const rawBoss = document.getElementById('boss').value;
+        const rawDiff = document.getElementById('difficulty').value;
+        const rawParty = document.getElementById('partyType').value;
+
+        let keywords = [];
+
+        keywords.push(translationTable.meta[region].ゲーム名);
+
+        if (rawJob && translationTable.job[rawJob]) {
+            keywords.push(translationTable.job[rawJob][region]);
+        }
+
+        if (rawBoss && translationTable.boss[rawBoss]) {
+            keywords.push(translationTable.boss[rawBoss][region]);
+        }
+
+        if (rawDiff && translationTable.difficulty[rawDiff]) {
+            keywords.push(translationTable.difficulty[rawDiff][region]);
+        }
+
+        if (rawParty) {
+            keywords.push(translationTable.meta[region][rawParty]);
+        }
+
+        const searchQuery = keywords.join(' ');
+        const youtubeUrl = `https://www.youtube.com/results?search_query=${encodeURIComponent(searchQuery)}`;
+        window.open(youtubeUrl, '_blank');
+    }
+</script>
+
 </body>
 </html>
