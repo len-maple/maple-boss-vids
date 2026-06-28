@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="ja">
+<link rel="icon" type="image/png" href="icon.png">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MapleStoryボス動画検索ナビゲーター</title>
+    <title>MapleStory 動画検索ナビゲーター</title>
     <style>
         body {
             font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif;
@@ -40,6 +41,7 @@
 
         .form-group {
             margin-bottom: 18px;
+            transition: all 0.3s ease;
         }
 
         label {
@@ -102,24 +104,141 @@
             font-size: 12px;
             color: #bdc3c7;
         }
+
+        .hidden {
+            display: none !important;
+        }
     </style>
 </head>
 <body>
 
 <div class="search-container">
-    <h1>MapleStory ボス動画検索ナビゲーター</h1>
+    <h1>MapleStory 動画検索</h1>
     
     <form id="searchForm" onsubmit="searchYouTube(event)">
         <div class="form-group">
             <label for="region">対象リージョン（言語）</label>
             <select id="region" class="region-select">
-                <option value="JMS">JMS (日本 / 日本語)</option>
                 <option value="KMS">KMS (韓国 / 韓国語)</option>
+                <option value="JMS">JMS (日本 / 日本語)</option>
                 <option value="GMS">GMS (グローバル / 英語)</option>
             </select>
         </div>
 
         <div class="form-group">
+            <label for="content">コンテンツ</label>
+            <select id="content" onchange="toggleFields()">
+                <option value="ボス">ボス</option>
+                <option value="水路">水路</option>
+                <option value="狩り">狩り</option>
+                <option value="その他">その他</option>
+            </select>
+        </div>
+
+        <div class="form-group hidden" id="otherGroup">
+            <label for="otherTopic">個別テーマ</label>
+            <select id="otherTopic">
+                <option value="">指定なし</option>
+                <optgroup label="システム・強化・ステータス">
+                    <option value="装備">装備 (장비)</option>
+                    <option value="ステータス">ステータス (스탯)</option>
+                    <option value="強化">強化 (강화)</option>
+                    <option value="潜在">潜在 (잠재)</option>
+                    <option value="アディショナル潜在">アディショナル潜在 (에잠)</option>
+                    <option value="STR・DEX・INT・LUK・ALL">STR・DEX・INT・LUK・ALL</option>
+                    <option value="CT減少">CT減少 (쿨감)</option>
+                    <option value="ボスダメージ">ボスダメージ (보공)</option>
+                    <option value="防御無視">防御無視 (방무)</option>
+                    <option value="転生値">転生値 (추옵)</option>
+                    <option value="キューブ">キューブ (큐브)</option>
+                    <option value="スターフォース">スターフォース (스타포스)</option>
+                    <option value="アビリティ">アビリティ (어빌리티)</option>
+                    <option value="コア強化">コア強化 (코강)</option>
+                    <option value="6次転職">6次転職 (6차전직)</option>
+                    <option value="6次スキル">6次スキル (6차스킬)</option>
+                    <option value="ヘキサステータス">ヘキサステータス (헥사 스텟)</option>
+                    <option value="ソルエルダ">ソルエルダ (솔 에르다)</option>
+                    <option value="ソルエルダの欠片">ソルエルダの欠片 (조각)</option>
+                    <option value="ソルヤーヌス">ソルヤーヌス (솔 야누스)</option>
+                    <option value="ソルヘカテ">ソルヘカテ (솔 헤카테)</option>
+                    <option value="アセントスキル">アセントスキル (어센트 스킬)</option>
+                    <option value="ユニオンアーティファクト">ユニオンアーティファクト</option>
+                    <option value="ユニオンチャンピオン">ユニオンチャンピオン</option>
+                </optgroup>
+                <optgroup label="防具・武器・部位別">
+                    <option value="アクセサリー">アクセサリー (장신구)</option>
+                    <option value="顔の飾り">顔の飾り (얼굴장식)</option>
+                    <option value="目の飾り">目の飾り (눈장식)</option>
+                    <option value="イヤリング">イヤリング (귀걸이)</option>
+                    <option value="指輪">指輪 (반지)</option>
+                    <option value="ペンダント">ペンダント (펜던트)</option>
+                    <option value="ベルト">ベルト (벨트)</option>
+                    <option value="肩飾り">肩飾り (어께장식)</option>
+                    <option value="ポケットアイテム">ポケットアイテム (포켓템)</option>
+                    <option value="防具">防具 (방어구)</option>
+                    <option value="帽子">帽子 (모자)</option>
+                    <option value="鎧上">鎧上 (상의)</option>
+                    <option value="鎧下">鎧下 (하의)</option>
+                    <option value="靴">靴 (신발)</option>
+                    <option value="手袋">手袋 (장갑)</option>
+                    <option value="マント">マント (망토)</option>
+                    <option value="武器">武器 (무기)</option>
+                    <option value="補助武器">補助武器 (보조무기)</option>
+                    <option value="エンブレム">エンブレム (엠블렘)</option>
+                    <option value="心臓">心臓 (기계심장)</option>
+                    <option value="シードリング">シードリング (시드링)</option>
+                    <option value="シードリング強化">シードリング強化</option>
+                </optgroup>
+                <optgroup label="装備シリーズ">
+                    <option value="Cアビス装備">Cアビス装備 (카루타)</option>
+                    <option value="アブソレス">アブソレス (앱솔)</option>
+                    <option value="アーケインシェード">アーケインシェード (아케인)</option>
+                    <option value="漆黒">漆黒 (칠흑)</option>
+                    <option value="黎明">黎明 (여명)</option>
+                    <option value="エテルネル">エテルネル (에테르넬)</option>
+                    <option value="光輝">光輝 (광휘)</option>
+                    <option value="エクセプショナル強化">エクセプショナル強化</option>
+                    <option value="ジェネシス武器">ジェネシス武器</option>
+                    <option value="デスティニー武器">デスティニー武器</option>
+                </optgroup>
+                <optgroup label="狩り・戦闘・スキル関連">
+                    <option value="メイプルストーリー">メイプルストーリー（메이플）</option>
+                    <option value="狩り">狩り (사냥)</option>
+                    <option value="定点狩り">定点狩り (제자리 사냥)</option>
+                    <option value="狩場">狩場 (사냥터)</option>
+                    <option value="殴り方">殴り方/サイクル (딜사이클)</option>
+                    <option value="瞬間攻撃">瞬間攻撃/極極 (극딜)</option>
+                    <option value="スキル">スキル (스킬)</option>
+                    <option value="磁石ペット">磁石ペット (자석펫)</option>
+                    <option value="改変">改変 (개편)</option>
+                    <option value="リマスター">リマスター (리마스터)</option>
+                </optgroup>
+                <optgroup label="コンテンツ・イベント・その他">
+                    <option value="道場">道場 (무릉도장)</option>
+                    <option value="ザ・シード">ザ・シード (더시드)</option>
+                    <option value="〇層、〇階">〇層、〇階 (〇층)</option>
+                    <option value="ジェネクエ">ジェネクエ (해방퀘)</option>
+                    <option value="デスクエ">デスクエ (데스티니 해방)</option>
+                    <option value="フラッグレース">フラッグレース (플래그)</option>
+                    <option value="真昼の雪原">真昼の雪原 (한낮의 설원)</option>
+                    <option value="夕日の雪原">夕日の雪原 (석양의 설원)</option>
+                    <option value="真夜中の雪原">真夜中の雪原 (한밤의 설원)</option>
+                    <option value="水路">水路 (지하수로)</option>
+                    <option value="パンチキング">パンチキング (펀치킹)</option>
+                    <option value="ハイパーバーニング">ハイパーバーニング</option>
+                    <option value="ヘイスト">ヘイスト (헤이스트)</option>
+                    <option value="タクティカルリレー">タクティカルリレー</option>
+                    <option value="エピックダンジョン">エピックダンジョン</option>
+                    <option value="ハイマウンテン">ハイマウンテン (하이마운틴)</option>
+                    <option value="アングラーカンパニー">アングラーカンパニー</option>
+                    <option value="悪夢仙境">悪夢仙境 (악몽선경)</option>
+                    <option value="アズモス峡谷">アズモス峡谷 (아즈모스)</option>
+                    <option value="チャレンジャーズワールド">チャレンジャーズワールド</option>
+                </optgroup>
+            </select>
+        </div>
+
+        <div class="form-group" id="jobGroup">
             <label for="job">職業</label>
             <select id="job">
                 <option value="">指定なし</option>
@@ -190,7 +309,47 @@
             </select>
         </div>
 
-        <div class="form-group">
+        <div class="form-group hidden" id="ctGroup">
+            <label for="ctReduce">CT減少 (帽子)</label>
+            <select id="ctReduce">
+                <option value="">指定なし</option>
+                <option value="1秒">1秒</option>
+                <option value="2秒">2秒</option>
+                <option value="3秒">3秒</option>
+                <option value="4秒">4秒</option>
+                <option value="5秒">5秒</option>
+            </select>
+        </div>
+
+        <div class="form-group hidden" id="areaGroup">
+            <label for="area">地域（狩り場）</label>
+            <select id="area">
+                <option value="">指定なし</option>
+                <option value="消滅の旅路">消滅の旅路</option>
+                <option value="リバースシティー">リバースシティー</option>
+                <option value="チューチューアイランド">チューチューアイランド</option>
+                <option value="ヤムヤムアイランド">ヤムヤムアイランド</option>
+                <option value="レヘルン">レヘルン</option>
+                <option value="アルカナ">アルカナ</option>
+                <option value="モラス">モラス</option>
+                <option value="エスフェラ">エスフェラ</option>
+                <option value="セラス">セラス</option>
+                <option value="ムーンブリッジ">ムーンブリッジ</option>
+                <option value="苦痛の迷宮">苦痛の迷宮</option>
+                <option value="リメン">リメン</option>
+                <option value="セルニウム">セルニウム</option>
+                <option value="燃え上がるセルニウム">燃え上がるセルニウム</option>
+                <option value="ホテルアルクス">ホテルアルクス</option>
+                <option value="オーディウム">オーディウム</option>
+                <option value="桃源郷">桃源郷</option>
+                <option value="アルテリア">アルテリア</option>
+                <option value="カルシオン">カルシオン</option>
+                <option value="タラハート">タラハート</option>
+                <option value="ギアドロック">ギアドロック(295地域)</option>
+            </select>
+        </div>
+
+        <div class="form-group" id="bossGroup">
             <label for="boss">ボス</label>
             <select id="boss">
                 <option value="">指定なし</option>
@@ -214,7 +373,7 @@
             </select>
         </div>
 
-        <div class="form-group">
+        <div class="form-group" id="difficultyGroup">
             <label for="difficulty">難易度</label>
             <select id="difficulty">
                 <option value="">指定なし</option>
@@ -226,11 +385,12 @@
             </select>
         </div>
 
-        <div class="form-group">
+        <div class="form-group" id="partyGroup">
             <label for="partyType">パーティ形態</label>
             <select id="partyType">
                 <option value="">指定なし</option>
                 <option value="ソロ">ソロ</option>
+                <option value="最小カット">最小カット</option>
                 <option value="PT">PT (パーティ)</option>
             </select>
         </div>
@@ -240,12 +400,50 @@
 </div>
 
 <script>
+    function toggleFields() {
+        const content = document.getElementById('content').value;
+        
+        const otherGroup = document.getElementById('otherGroup');
+        const jobGroup = document.getElementById('jobGroup');
+        const ctGroup = document.getElementById('ctGroup');
+        const areaGroup = document.getElementById('areaGroup');
+        const bossGroup = document.getElementById('bossGroup');
+        const difficultyGroup = document.getElementById('difficultyGroup');
+        const partyGroup = document.getElementById('partyGroup');
+
+        // デフォルトは全非表示（職のみ残す）
+        otherGroup.classList.add('hidden');
+        jobGroup.classList.remove('hidden');
+        ctGroup.classList.add('hidden');
+        areaGroup.classList.add('hidden');
+        bossGroup.classList.add('hidden');
+        difficultyGroup.classList.add('hidden');
+        partyGroup.classList.add('hidden');
+
+        if (content === '水路') {
+            ctGroup.classList.remove('hidden');
+        } else if (content === '狩り') {
+            areaGroup.classList.remove('hidden');
+        } else if (content === 'ボス') {
+            bossGroup.classList.remove('hidden');
+            difficultyGroup.classList.remove('hidden');
+            partyGroup.classList.remove('hidden');
+        } else if (content === 'その他') {
+            // 「その他」の時はすべてのセレクトボックスをフルオープンにする
+            otherGroup.classList.remove('hidden');
+            ctGroup.classList.remove('hidden');
+            areaGroup.classList.remove('hidden');
+            bossGroup.classList.remove('hidden');
+            difficultyGroup.classList.remove('hidden');
+            partyGroup.classList.remove('hidden');
+        }
+    }
+
     const translationTable = {
         meta: {
-            JMS: {ゲーム名: 'メイプルストーリー', ソロ: 'ソロ', PT: 'PT'},
-            KMS: {ゲーム名: '메이플스토리', ソロ: '솔로', PT: '격숍 파티'},
-            style: { JMS: '', KMS: '', GMS: '' },
-            GMS: {ゲーム名: 'Maplestory', ソロ: 'Solo', PT: 'Party'}
+            JMS: {ゲーム名: 'メイプルストーリー', ソロ: 'ソロ', PT: 'PT', 水路: '水路', CT減少: 'CT減少', 狩り: '狩り', 最小カット: '最小カット'},
+            KMS: {ゲーム名: '메이플스토리', ソロ: '솔로', PT: '격숍 파티', 水路: '지하수로', CT減少: '쿨감', 狩り: '사냥', 最小カット: '최소 컷'},
+            GMS: {ゲーム名: 'Maplestory', ソロ: 'Solo', PT: 'Party', 水路: 'Culvert', CT減少: 'CD', 狩り: 'Hunting', 最小カット: 'Minimum Cut'}
         },
         difficulty: {
             'イージー': { JMS: 'イージー', KMS: '이지', GMS: 'Easy' },
@@ -254,6 +452,29 @@
             'カオス': { JMS: 'カオス', KMS: '카오스', GMS: 'Chaos' },
             'エクストリーム': { JMS: 'エクストリーム', KMS: '익스트림', GMS: 'Extreme' },
             'エピック': { JMS: 'エピック', KMS: '에픽', GMS: 'Epic' }
+        },
+        area: {
+            '消滅の旅路': { JMS: '消滅の旅路', KMS: '소멸의 여로', GMS: 'Vanishing Journey' },
+            'リバースシティー': { JMS: 'リバースシティー', KMS: '리버스 시티', GMS: 'Reverse City' },
+            'チューチューアイランド': { JMS: 'チューチューアイランド', KMS: '츄츄 아일랜드', GMS: 'Chuchu Island' },
+            'ヤムヤムアイランド': { JMS: 'ヤムヤムアイランド', KMS: '얌얌 아일랜드', GMS: 'Yum Yum Island' },
+            'レヘルン': { JMS: 'レヘルン', KMS: '레헬른', GMS: 'Lachelein' },
+            'アルカナ': { JMS: 'アルカナ', KMS: '아르카나', GMS: 'Arcana' },
+            'モラス': { JMS: 'モラス', KMS: '모라스', GMS: 'Morass' },
+            'エスフェラ': { JMS: 'エスフェラ', KMS: '에스페라', GMS: 'Esfera' },
+            'セラス': { JMS: 'セラス', KMS: '셀라스', GMS: 'Sellas' },
+            'ムーンブリッジ': { JMS: 'ムーンブリッジ', KMS: '문브릿지', GMS: 'Moonbridge' },
+            '苦痛の迷宮': { JMS: '苦痛の迷宮', KMS: '미궁', GMS: 'Labyrinth of Suffering' },
+            'リメン': { JMS: 'リメン', KMS: '리멘', GMS: 'Limina' },
+            'セルニウム': { JMS: 'セルニウム', KMS: '세르니움', GMS: 'Cernium' },
+            '燃え上がるセルニウム': { JMS: '燃え上がるセルニウム', KMS: '불타는 세르니움 후르니움', GMS: 'Burning Cernium' },
+            'ホテルアルクス': { JMS: 'ホテルアルクス', KMS: '호텔 아르크스 아르크스', GMS: 'Hotel Arcus' },
+            'オーディウム': { JMS: 'オーディウム', KMS: '오디움', GMS: 'Odium' },
+            '桃源郷': { JMS: '桃源郷', KMS: '도원경', GMS: 'Shangri-La' },
+            'アルテリア': { JMS: 'アルテリア', KMS: '아르테리아', GMS: 'Arteria' },
+            'カルシオン': { JMS: 'カルシオン', KMS: '카르시온', GMS: 'Carcion' },
+            'タラハート': { JMS: 'タラハート', KMS: '탈라하트', GMS: 'Talhart' },
+            'ギアドロック': { JMS: '기어드락', KMS: '기어드락', GMS: 'Geardrock' }
         },
         boss: {
             'ガーディアンエンジェルスライム': { JMS: 'ガーディアンエンジェルスライム ガエン', KMS: '가엔슬 가디언 엔젤 슬라임', GMS: 'Guardian Angel Slime' },
@@ -322,7 +543,94 @@
             'ゼロ': { JMS: 'ゼロ', KMS: '제로', GMS: 'Zero' },
             'キネシス': { JMS: 'キネシス', KMS: '키네시스', GMS: 'Kinesis' },
             'リン': { JMS: 'リン', KMS: '린', GMS: 'Lynn' },
-            'レン': { JMS: 'レン', KMS: '렌', GMS: 'Len' }
+            'レン': { JMS: 'レン', KMS: '렌', GMS: 'Ren' }
+        },
+        other: {
+            '装備': { JMS: '装備', KMS: '장비', GMS: 'Equipment' },
+            'ステータス': { JMS: 'ステータス', KMS: '스탯', GMS: 'Stats' },
+            '強化': { JMS: '強化', KMS: '강화', GMS: 'Enhancement' },
+            '潜在': { JMS: '潜在', KMS: '잠재', GMS: 'Potential' },
+            'アディショナル潜在': { JMS: 'アディショナル潜在', KMS: '에디셔널 잠재 에잠', GMS: 'Additional Potential' },
+            'STR・DEX・INT・LUK・ALL': { JMS: 'STR DEX INT LUK ALL', KMS: '힘 덱 인 럭 올스텟', GMS: 'STR DEX INT LUK ALL' },
+            'CT減少': { JMS: 'CT減少', KMS: '쿨타임 감소 쿨감', GMS: 'CD' },
+            'ボスダメージ': { JMS: 'ボスダメージ', KMS: '보공', GMS: 'Boss Damage' },
+            '防御無視': { JMS: '防御無視', KMS: '방무', GMS: 'IED' },
+            '転生値': { JMS: '転生値추옵', KMS: '추가옵션 추옵', GMS: 'Flame' },
+            'キューブ': { JMS: 'キューブ', KMS: '큐브', GMS: 'Cube' },
+            'スターフォース': { JMS: 'スターフォース', KMS: '스타포스', GMS: 'Starforce' },
+            'アビリティ': { JMS: 'アビリティ', KMS: '어빌리티', GMS: 'Ability' },
+            'アクセサリー': { JMS: 'アクセサリー', KMS: '장신구', GMS: 'Accessory' },
+            '顔の飾り': { JMS: '顔の飾り', KMS: '얼굴장식', GMS: 'Face Accessory' },
+            '目の飾り': { JMS: '目の飾り', KMS: '눈장식', GMS: 'Eye Accessory' },
+            'イヤリング': { JMS: 'イヤリング', KMS: '귀걸이', GMS: 'Earrings' },
+            '指輪': { JMS: '指輪', KMS: '반지', GMS: 'Ring' },
+            'ペンダント': { JMS: 'ペンダント', KMS: '펜던트', GMS: 'Pendant' },
+            'ベルト': { JMS: 'ベルト', KMS: '벨트', GMS: 'Belt' },
+            '肩飾り': { JMS: '肩飾り', KMS: '어께장식', GMS: 'Shoulder' },
+            'ポケットアイテム': { JMS: 'ポケットアイテム', KMS: '포켓 아이템 포켓템', GMS: 'Pocket Item' },
+            '防具': { JMS: '防具', KMS: '방어구', GMS: 'Armor' },
+            '帽子': { JMS: '帽子', KMS: '모자', GMS: 'Hat' },
+            '鎧上': { JMS: '鎧上', KMS: '상의', GMS: 'Top' },
+            '鎧下': { JMS: '鎧下', KMS: '하의', GMS: 'Bottom' },
+            '靴': { JMS: '靴', KMS: '신발', GMS: 'Shoes' },
+            '手袋': { JMS: '手袋', KMS: '장갑', GMS: 'Gloves' },
+            'マント': { JMS: 'マント', KMS: '망토', GMS: 'Cape' },
+            '武器': { JMS: '武器', KMS: '무기', GMS: 'Weapon' },
+            '補助武器': { JMS: '補助武器', KMS: '보조무기', GMS: 'Secondary Weapon' },
+            'エンブレム': { JMS: 'エンブレム', KMS: '엠블렘', GMS: 'Emblem' },
+            '心臓': { JMS: '心臓', KMS: '기계심장', GMS: 'Android Heart' },
+            'シードリング': { JMS: 'シードリング', KMS: '시드링', GMS: 'Oz Ring' },
+            'コア強化': { JMS: 'コア強化', KMS: '코어 강화 코강', GMS: 'Nodes' },
+            'Cアビス装備': { JMS: 'Cアビス カ루타', KMS: '카루타', GMS: 'Cra' },
+            'アブソレス': { JMS: 'アブソレス', KMS: '앱솔랩스 앱솔', GMS: 'Absolab' },
+            'アーケインシェード': { JMS: 'アーケイン', KMS: '아케인셰이드 아케인', GMS: 'Arcane' },
+            '漆黒': { JMS: '漆黒', KMS: '칠흑', GMS: 'Pitched' },
+            '黎明': { JMS: '黎明', KMS: '여명', GMS: 'Dawn' },
+            'エテルネル': { JMS: 'エテルネル', KMS: '에테르넬', GMS: 'Eternal' },
+            '光輝': { JMS: '光輝', KMS: '광휘', GMS: 'Brilliance' },
+            'エクセプショナル強化': { JMS: 'エクセプショナル強化', KMS: '익셉셔널 강화', GMS: 'Exceptional' },
+            'シードリング強化': { JMS: 'シードリング強化', KMS: '시드링 강화', GMS: 'Ring Box' },
+            'ジェネシス武器': { JMS: 'ジェネシス武器', KMS: '제네시스 무기', GMS: 'Genesis Weapon' },
+            'デスティニー武器': { JMS: 'デスティニー武器', KMS: '데스티니 무기', GMS: 'Destiny Weapon' },
+            'メイプルストーリー': { JMS: 'メイプル', KMS: '메이플스토리 메이플', GMS: 'Maplestory' },
+            '狩り': { JMS: '狩り', KMS: '사냥', GMS: 'Hunting' },
+            '定点狩り': { JMS: '定点狩り', KMS: '제자리 사냥', GMS: 'Bite Hunting' },
+            '狩場': { JMS: '狩場', KMS: '사냥터', GMS: 'Hunting Spot' },
+            '殴り方': { JMS: '殴り方 サイクル', KMS: '딜사이클', GMS: 'Rotation' },
+            '瞬間攻撃': { JMS: '瞬間攻撃 極딜', KMS: '극딜', GMS: 'Burst' },
+            'スキル': { JMS: 'スキル', KMS: '스킬', GMS: 'Skill' },
+            '6次転職': { JMS: '6次転職', KMS: '6차전직', GMS: '6th Job' },
+            '6次スキル': { JMS: '6次スキル', KMS: '6차스킬', GMS: '6th Skill' },
+            'ヘキサステータス': { JMS: 'ヘキサステータス', KMS: '헥사 스텟', GMS: 'HEXA Stat' },
+            'ソルエルダ': { JMS: 'ソルエルダ', KMS: '솔 에르다', GMS: 'Sol Erda' },
+            'ソルエルダの欠片': { JMS: '欠片', KMS: '솔 에르다 조각', GMS: 'Erda Fragment' },
+            'ソルヤーヌス': { JMS: 'ソルヤーヌス', KMS: '솔 야누스', GMS: 'HEXA Janus' },
+            'ソルヘカテ': { JMS: 'ソルヘカテ', KMS: '솔 헤카테', GMS: 'HEXA Hecate' },
+            'アセントスキル': { JMS: 'アセントスキル', KMS: '어센트 스킬', GMS: 'Ascention Skill' },
+            '磁石ペット': { JMS: '磁石ペット', KMS: '자석펫', GMS: 'Vac Pet' },
+            '改変': { JMS: '改変', KMS: '개편', GMS: 'Revamp' },
+            '道場': { JMS: '道場 무릉', KMS: '무릉도장', GMS: 'Dojo' },
+            'ザ・シード': { JMS: 'ザ・シード', KMS: '더시드', GMS: 'The Seed' },
+            '〇層、〇階': { JMS: '層 階', KMS: '층', GMS: 'F' },
+            'ジェネクエ': { JMS: 'ジェネクエ 解放クエスト', KMS: '제네시스 해방퀘', GMS: 'Genesis Liberation' },
+            'デスクエ': { JMS: 'デスクエ デスティニー', KMS: '데스티니 해방퀘', GMS: 'Destiny Liberation' },
+            'フラッグレース': { JMS: 'フラッグレース', KMS: '플래그 레이스 플래그', GMS: 'Flag Race' },
+            '真昼の雪原': { JMS: '真昼の雪原', KMS: '한낮의 설원', GMS: 'Midday Snowfield' },
+            '夕日の雪原': { JMS: '夕日の雪原', KMS: '석양의 설원', GMS: 'Sunset Snowfield' },
+            '真夜中の雪原': { JMS: '真夜中の雪原', KMS: '한밤의 설원', GMS: 'Midnight Snowfield' },
+            'パンチキング': { JMS: 'パンチキング', KMS: '펀치킹', GMS: 'Punch King' },
+            'リマスター': { JMS: 'リマスター', KMS: '리마스터', GMS: 'Remaster' },
+            'ハイパーバーニング': { JMS: 'ハイパーバーニング', KMS: '하이퍼버닝', GMS: 'Hyper Burning' },
+            'ヘイスト': { JMS: 'ヘイスト', KMS: '헤이스트', GMS: 'Haste' },
+            'タクティカルリレー': { JMS: 'タクティカルリレー', KMS: '택티컬 릴레이', GMS: 'Tactical Relay' },
+            'エピックダンジョン': { JMS: 'エピックダンジョン', KMS: '에픽 던전', GMS: 'Epic Dungeon' },
+            'ハイマウンテン': { JMS: 'ハイマウンテン', KMS: '하이마운틴', GMS: 'High Mountain' },
+            'アングラーカンパニー': { JMS: 'アングラーカンパニー', KMS: '앵글러 컴퍼니', GMS: 'Angler Company' },
+            '悪夢仙境': { JMS: '悪夢仙境', KMS: '악몽선경', GMS: 'Nightmare Winter' },
+            'アズモス峡谷': { JMS: 'アズモス峡谷', KMS: '아즈모스 협곡 아즈모스', GMS: 'Asmos Canyon' },
+            'ユニオンアーティファクト': { JMS: 'ユニオンアーティファクト', KMS: '유니온 아티팩트', GMS: 'Union Artifact' },
+            'ユニオンチャンピオン': { JMS: 'ユニオンチャンピオン', KMS: '유니온 챔피언 유챔', GMS: 'Union Champion' },
+            'チャレンジャーズワールド': { JMS: 'チャレンジャーズワールド', KMS: '챌린저스 월드 챌섭', GMS: 'Challengers World' }
         }
     };
 
@@ -330,29 +638,60 @@
         event.preventDefault();
 
         const region = document.getElementById('region').value;
+        const content = document.getElementById('content').value;
         const rawJob = document.getElementById('job').value;
         const rawBoss = document.getElementById('boss').value;
         const rawDiff = document.getElementById('difficulty').value;
         const rawParty = document.getElementById('partyType').value;
+        const rawCt = document.getElementById('ctReduce').value;
+        const rawArea = document.getElementById('area').value;
+        const rawTopic = document.getElementById('otherTopic').value;
 
         let keywords = [];
 
+        // 1. ゲームタイトル
         keywords.push(translationTable.meta[region].ゲーム名);
 
+        // 2. 基本コンテンツ種別
+        if (content === '水路') {
+            keywords.push(translationTable.meta[region].水路);
+        } else if (content === '狩り') {
+            keywords.push(translationTable.meta[region].狩り);
+        }
+
+        // 3. その他：個別テーマの翻訳を追加
+        if (content === 'その他' && rawTopic && translationTable.other[rawTopic]) {
+            keywords.push(translationTable.other[rawTopic][region]);
+        }
+
+        // 4. 職業の追加
         if (rawJob && translationTable.job[rawJob]) {
             keywords.push(translationTable.job[rawJob][region]);
         }
 
-        if (rawBoss && translationTable.boss[rawBoss]) {
-            keywords.push(translationTable.boss[rawBoss][region]);
+        // 5. CT減少の追加（水路、またはその他で選ばれている場合）
+        if (rawCt && (content === '水路' || content === 'その他')) {
+            const ctUnit = (region === 'GMS') ? 's ' : (region === 'KMS') ? '초 ' : '';
+            const ctVal = rawCt.replace('秒', ctUnit);
+            keywords.push(ctVal + (translationTable.meta[region].CT減少 || ''));
         }
 
-        if (rawDiff && translationTable.difficulty[rawDiff]) {
-            keywords.push(translationTable.difficulty[rawDiff][region]);
+        // 6. 狩場地域の追加（狩り、またはその他で選ばれている場合）
+        if (rawArea && translationTable.area[rawArea] && (content === '狩り' || content === 'その他')) {
+            keywords.push(translationTable.area[rawArea][region]);
         }
 
-        if (rawParty) {
-            keywords.push(translationTable.meta[region][rawParty]);
+        // 7. ボス・難易度・PT形態の追加（ボス、またはその他で選ばれている場合）
+        if (content === 'ボス' || content === 'その他') {
+            if (rawBoss && translationTable.boss[rawBoss]) {
+                keywords.push(translationTable.boss[rawBoss][region]);
+            }
+            if (rawDiff && translationTable.difficulty[rawDiff]) {
+                keywords.push(translationTable.difficulty[rawDiff][region]);
+            }
+            if (rawParty) {
+                keywords.push(translationTable.meta[region][rawParty]);
+            }
         }
 
         const searchQuery = keywords.join(' ');
