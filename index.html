@@ -524,6 +524,7 @@
                 <select id="partyType">
                     <option value="">指定なし</option>
                     <option value="ソロ">ソロ</option>
+                    <option value="ペア">ペア</option>
                     <option value="最小カット">最小カット</option>
                     <option value="PT">PT (パーティ)</option>
                 </select>
@@ -586,9 +587,9 @@
 
     const translationTable = {
         meta: {
-            JMS: {ゲーム名: 'メイプルストーリー', ソロ: 'ソロ', PT: 'PT', 水路: '水路', CT減少: 'CT減少', 狩り: '狩り', 最小カット: '最小カット'},
-            KMS: {ゲーム名: '메이플스토리', ソロ: '솔로', PT: '격숍 파티', 水路: '지하수로', CT減少: '쿨감', 狩り: '사냥', 最小カット: '최소 컷'},
-            GMS: {ゲーム名: 'Maplestory', ソロ: 'Solo', PT: 'Party', 水路: 'Culvert', CT減少: 'CD', 狩り: 'Hunting', 最小カット: 'Minimum Cut'}
+            JMS: {ゲーム名: 'メイプルストーリー', ソロ: 'ソロ', ペア: 'ペア', PT: 'PT', 水路: '水路', CT減少: 'CT減少', 狩り: '狩り', 最小カット: '最小カット'},
+            KMS: {ゲーム名: '메이플스토리', ソロ: '솔로', ペア: '듀오', PT: '격숍 파티', 水路: '지하수로', CT減少: '쿨감', 狩り: '사냥', 最小カット: '최소 컷'},
+            GMS: {ゲーム名: 'Maplestory', ソロ: 'Solo', ペア: 'Duo', PT: 'Party', 水路: 'Culvert', CT減少: 'CD', 狩り: 'Hunting', 最小カット: 'Minimum Cut'}
         },
         difficulty: {
             'イージー': { JMS: 'イージー', KMS: '이지', GMS: 'Easy' },
